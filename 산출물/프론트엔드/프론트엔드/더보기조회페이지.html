@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>더보기 조회 페이지</title>
+    <link rel="stylesheet" href="더보기조회페이지.css">
+</head>
+<body>
+    <button class="back-list-btn">목록으로 돌아가기</button>
+    <div style="height: 40px;"></div>
+    <main class="main-flex">
+        <div class="main-left">
+            <div class="main-image-box">
+                <div class="main-image-placeholder">600 × 400</div>
+                <div class="main-building-info">
+                    <span>면적: <b>2,500 sq ft</b></span><br>
+                    <span>층수: <b>3</b></span><br>
+                    <span>용도: <b>Commercial</b></span>
+                </div>
+            </div>
+        </div>
+        <div class="main-right">
+            <div class="main-eq-info">
+                <div class="main-eq-title">지진 정보</div>
+                <div class="main-eq-box">
+                    <div class="main-eq-label">예측 지진 강도</div>
+                    <div class="main-eq-value">7.2</div>
+                </div>
+                <div class="main-eq-box">
+                    <div class="main-eq-label">내진등급</div>
+                    <div class="main-eq-value">Special</div>
+                </div>
+                <div class="main-eq-box">
+                    <div class="main-eq-label">주된 내진 설계 방식</div>
+                    <div class="main-eq-value">Base Isolation</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <section class="comment-section">
+        <div class="comment-title">Comment</div>
+        <div class="comment-input-box">
+            <textarea placeholder="댓글을 입력하세요"></textarea>
+            <button class="comment-submit-btn" disabled>댓글 작성</button>
+        </div>
+        <div class="comment-list-box">
+            <div class="comment-list-header">
+                <span>댓글 Test1</span>
+                <span class="comment-author">실명</span>
+                <span class="comment-date">2025.05.01 16:04</span>
+            </div>
+            <div class="comment-list-content">댓글 테스트 입니다.</div>
+            <div class="comment-list-actions">
+                <button class="comment-delete-btn" disabled>삭제</button>
+                <button class="comment-edit-btn" disabled>수정</button>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

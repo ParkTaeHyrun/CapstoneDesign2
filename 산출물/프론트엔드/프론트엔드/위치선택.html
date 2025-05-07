@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>위치 선택</title>
+    <link rel="stylesheet" href="위치선택.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">로그아웃</a>
+            <a href="#">마이페이지</a>
+        </nav>
+    </header>
+    <main>
+        <h1>위치 선택</h1>
+        <p>지진 예측을 진행할 위치를 입력하세요</p>
+        <div class="input-group">
+            <input type="text" placeholder="위치를 선택해주세요">
+            <button id="open-popup-btn">위치 찾기</button>
+        </div>
+        <div class="map-placeholder">
+            사용자가 위치 찾기 버튼을 클릭하고 위치를 선택하면 위치가 지도화면으로 나옴
+        </div>
+        <button class="next-button">다음으로 넘어가기</button>
+    </main>
+
+    <!-- 팝업창 HTML -->
+    <div class="popup" id="address-popup" style="display:none;">
+        <div class="popup-header">
+            <h2>주소정보 입력</h2>
+            <button class="close-button" id="close-popup-btn">×</button>
+        </div>
+        <div class="popup-content">
+            <input type="text" placeholder="지역명을 입력해주세요">
+            <button class="search-button">검색</button>
+            <p>예시 : 도로명(관교대로 5층), 건물명(롯데캐슬), 지번(신촌동 25)</p>
+            <div class="address-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>도로명주소</th>
+                            <th>우편번호</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>서울특별시 강남구 테헤란로 5길 11</td>
+                            <td>06234</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('open-popup-btn').onclick = function() {
+        document.getElementById('address-popup').style.display = 'block';
+    };
+    document.getElementById('close-popup-btn').onclick = function() {
+        document.getElementById('address-popup').style.display = 'none';
+    };
+    </script>
+</body>
+</html>
