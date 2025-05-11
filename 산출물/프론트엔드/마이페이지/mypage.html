@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>마이페이지</title>
+  <style>
+    body { margin: 0; padding: 0; background: #181a1c; font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; }
+    .mypage-title { font-size: 2.2rem; letter-spacing: 0.5em; font-weight: 500; margin: 40px 0 0 60px; border-bottom: 3px solid #4f4fff; display: inline-block; padding-bottom: 4px; color: #ccc; }
+    .mypage-container { display: flex; margin: 40px 0 0 60px; gap: 48px; align-items: center; min-height: 600px; }
+    .profile-section { display: flex; flex-direction: column; align-items: center; width: 280px; justify-content: center; }
+    .profile-img { width: 240px; height: 240px; background: #181a1c; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #888; margin-bottom: 24px; font-weight: 600; cursor: pointer; overflow: hidden; position: relative; }
+    .profile-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .profile-img:hover::after { content: '클릭하여 수정'; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); color: #fff; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
+    #profile-file { display: none; }
+    .edit-btn { width: 100%; padding: 13px 0; background: #4f4fff; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 18px; transition: background 0.2s; }
+    .edit-btn:hover { background: #2d2db3; }
+    .history-card { width: 100%; background: #222; border: 2.5px solid #2222cc; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); padding: 18px 0 18px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; margin-bottom: 10px; text-align: center; }
+    .history-title { font-size: 2.2rem; color: #ccc; font-weight: 700; margin-bottom: 32px; }
+    .history-btn { width: 80%; padding: 18px 0; background: #222; color: #4f4fff; border: 3px solid #2222cc; border-radius: 12px; font-size: 1.3rem; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+    .history-btn:hover { background: #4f4fff; color: #fff; }
+    .info-section { flex: 1; background: #222; border-radius: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); padding: 40px 48px 48px 48px; min-width: 400px; max-width: 600px; }
+    .info-title { font-size: 1.2rem; font-weight: 600; color: #ccc; margin-bottom: 24px; display: flex; align-items: center; }
+    .info-title::before { content: '•'; color: #4f4fff; font-size: 1.5rem; margin-right: 10px; }
+    .info-form { display: flex; flex-direction: column; gap: 18px; }
+    .info-label { font-size: 15px; color: #ccc; margin-bottom: 6px; font-weight: 500; }
+    .info-input { width: 100%; padding: 12px 10px; border: 1.5px solid #2222cc; border-radius: 6px; font-size: 15px; background: #181a1c; color: #aaa; margin-bottom: 2px; outline: none; }
+  </style>
+</head>
+<body>
+  <div class="mypage-title">마 이 페 이 지</div>
+  <div class="mypage-container">
+    <div class="profile-section">
+      <label class="profile-img" for="profile-file" id="profileImgBox">
+        <span id="profileImgText">프로필 이미지</span>
+        <img id="profileImgPreview" src="" alt="프로필 이미지" style="display:none;" />
+      </label>
+      <input type="file" id="profile-file" accept="image/*" onchange="previewProfileImg(event)">
+      <button class="edit-btn" onclick="window.location.href='password-modal.html'">회원정보 수정하기</button>
+      <div class="history-card">
+        <div class="history-title">과거 검색 내역</div>
+        <button class="history-btn" onclick="window.location.href='history-list.html'">조회하기</button>
+      </div>
+    </div>
+    <div class="info-section">
+      <div class="info-title">회원정보</div>
+      <form class="info-form">
+        <div>
+          <div class="info-label">이름</div>
+          <input class="info-input" type="text" value="" placeholder="" disabled>
+        </div>
+        <div>
+          <div class="info-label">아이디</div>
+          <input class="info-input" type="text" value="" placeholder="" disabled>
+        </div>
+        <div>
+          <div class="info-label">비밀번호</div>
+          <input class="info-input" type="password" value="" placeholder="" disabled>
+        </div>
+        <div>
+          <div class="info-label">이메일</div>
+          <input class="info-input" type="email" value="" placeholder="" disabled>
+        </div>
+        <div>
+          <div class="info-label">기업명</div>
+          <input class="info-input" type="text" value="" placeholder="" disabled>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    function previewProfileImg(event) {
+      const file = event.target.files[0];
+      const img = document.getElementById('profileImgPreview');
+      const text = document.getElementById('profileImgText');
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          img.src = e.target.result;
+          img.style.display = 'block';
+          text.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        img.src = '';
+        img.style.display = 'none';
+        text.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html> 

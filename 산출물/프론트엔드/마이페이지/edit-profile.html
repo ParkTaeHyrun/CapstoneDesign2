@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원정보 수정</title>
+  <style>
+    body { margin: 0; padding: 0; background: #f6f7f9; font-family: 'Segoe UI', Arial, sans-serif; }
+    .top-link { margin: 32px 0 0 60px; display: block; color: #4f4fff; font-weight: 600; text-decoration: underline; font-size: 1.1rem; }
+    .edit-container { max-width: 600px; margin: 48px auto 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); padding: 38px 38px 32px 38px; }
+    .edit-title { font-size: 1.18rem; font-weight: 700; color: #222; margin-bottom: 32px; display: flex; align-items: center; }
+    .edit-title::before { content: '•'; color: #4f4fff; font-size: 1.5rem; margin-right: 10px; }
+    .edit-form { display: flex; flex-direction: column; gap: 22px; }
+    .edit-label { font-size: 15px; color: #444; margin-bottom: 7px; font-weight: 500; }
+    .edit-input { width: 100%; padding: 13px 12px; border: 1.5px solid #e2e8f0; border-radius: 7px; font-size: 15px; background: #f8fafc; color: #222; outline: none; transition: border 0.2s; }
+    .edit-input:focus { border: 2px solid #4f4fff; background: #fff; }
+    .edit-btns { display: flex; justify-content: flex-end; gap: 14px; margin-top: 18px; }
+    .btn-main { padding: 12px 32px; background: #4f4fff; color: #fff; border: none; border-radius: 7px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .btn-main:hover { background: #2d2db3; }
+    .btn-outline { padding: 12px 32px; background: #fff; color: #4f4fff; border: 2px solid #4f4fff; border-radius: 7px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+    .btn-outline:hover { background: #f3f4ff; color: #2d2db3; }
+    @media (max-width: 700px) { .edit-container { max-width: 98vw; padding: 18px 4vw 18px 4vw; } }
+  </style>
+</head>
+<body>
+  <a href="mypage.html" class="top-link">← 마이페이지로 돌아가기</a>
+  <div class="edit-container">
+    <div class="edit-title">회원정보수정</div>
+    <form class="edit-form">
+      <div>
+        <div class="edit-label">이름</div>
+        <input class="edit-input" type="text" placeholder="이름을 입력하세요">
+      </div>
+      <div>
+        <div class="edit-label">새 비밀번호</div>
+        <input class="edit-input" type="password" placeholder="새 비밀번호를 입력하세요">
+      </div>
+      <div>
+        <div class="edit-label">새 비밀번호 확인</div>
+        <input class="edit-input" type="password" placeholder="새 비밀번호를 다시 입력하세요">
+      </div>
+      <div>
+        <div class="edit-label">이메일</div>
+        <input class="edit-input" type="email" placeholder="이메일을 입력하세요">
+      </div>
+      <div>
+        <div class="edit-label">기업명</div>
+        <input class="edit-input" type="text" placeholder="기업명을 입력하세요" style="border-width:2px; border-color:#4f4fff;">
+      </div>
+      <div class="edit-btns">
+        <button type="submit" class="btn-main" onclick="event.preventDefault();window.location.href='mypage.html'">저장하기</button>
+        <button type="button" class="btn-outline" onclick="window.location.href='mypage.html'">취소하기</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html> 

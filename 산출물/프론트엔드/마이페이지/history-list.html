@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>보관함</title>
+  <style>
+    body { margin: 0; padding: 0; background: #fafbfc; font-family: 'Segoe UI', Arial, sans-serif; min-height: 100vh; }
+    .history-title { font-size: 2.1rem; font-weight: 700; margin: 48px 0 32px 60px; color: #222; }
+    .history-table-wrapper { background: #fff; border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); margin: 0 0 0 60px; width: 900px; padding: 24px 0 24px 0; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 1.08rem; }
+    thead tr { background: #fafbfc; }
+    th, td { text-align: left; padding: 18px 24px; }
+    th { color: #888; font-weight: 600; font-size: 1.05rem; border-bottom: 2px solid #f0f0f0; }
+    tr:not(:last-child) td { border-bottom: 1px solid #f0f0f0; }
+    td { color: #222; vertical-align: middle; }
+    .action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 18px 7px 14px; border-radius: 8px; border: none; background: #f3f4f6; color: #888; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.2s, color 0.2s; outline: none; margin-right: 8px; }
+    .action-btn:hover { background: #4f4fff; color: #fff; }
+    .load-btn { display: inline-block; padding: 7px 18px; border-radius: 8px; border: none; background: #f3f4f6; color: #888; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.2s, color 0.2s; }
+    .load-btn:hover { background: #e0e7ff; color: #4f4fff; }
+    .top-link { margin: 32px 0 0 60px; display: block; color: #4f4fff; font-weight: 600; text-decoration: underline; font-size: 1.1rem; }
+    @media (max-width: 1000px) {
+      .history-table-wrapper {
+        width: 98vw;
+        margin-left: 0;
+        padding: 8px 0 8px 0;
+      }
+      .history-title {
+        margin-left: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="mypage.html" class="top-link">← 마이페이지로 돌아가기</a>
+  <div class="history-title">보관함</div>
+  <div class="history-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>제목</th>
+          <th>저장 날짜</th>
+          <th>작업</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>검색 기록 1</td>
+          <td>2024-01-15</td>
+          <td>
+            <button class="action-btn">공유</button>
+            <button class="load-btn" onclick="window.location.href='history-detail.html'">불러오기</button>
+          </td>
+        </tr>
+        <tr>
+          <td>검색 기록 2</td>
+          <td>2024-01-08</td>
+          <td>
+            <button class="action-btn">공유</button>
+            <button class="load-btn" onclick="window.location.href='history-detail.html'">불러오기</button>
+          </td>
+        </tr>
+        <tr>
+          <td>검색 기록 3</td>
+          <td>2024-01-01</td>
+          <td>
+            <button class="action-btn">공유</button>
+            <button class="load-btn" onclick="window.location.href='history-detail.html'">불러오기</button>
+          </td>
+        </tr>
+        <tr>
+          <td>검색 기록 4</td>
+          <td>2023-12-31</td>
+          <td>
+            <button class="action-btn">공유</button>
+            <button class="load-btn" onclick="window.location.href='history-detail.html'">불러오기</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html> 

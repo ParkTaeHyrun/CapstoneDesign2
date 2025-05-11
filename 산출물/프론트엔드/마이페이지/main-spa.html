@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내진설계 추천 시스템</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fafbfc;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+    /* 공통 버튼 스타일 */
+    .btn-main {
+      padding: 12px 32px;
+      background: #4f4fff;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-main:hover {
+      background: #2d2db3;
+    }
+    .btn-outline {
+      padding: 12px 32px;
+      background: #fff;
+      color: #4f4fff;
+      border: 2px solid #4f4fff;
+      border-radius: 7px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-outline:hover {
+      background: #f3f4ff;
+      color: #2d2db3;
+    }
+    /* 마이페이지 */
+    .mypage-title {
+      font-size: 2.2rem;
+      letter-spacing: 0.5em;
+      font-weight: 500;
+      margin: 40px 0 0 60px;
+      border-bottom: 3px solid #4f4fff;
+      display: inline-block;
+      padding-bottom: 4px;
+      color: #222;
+    }
+    .mypage-container {
+      display: flex;
+      margin: 40px 0 0 60px;
+      gap: 48px;
+      align-items: center;
+      min-height: 600px;
+    }
+    .profile-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 280px;
+      justify-content: center;
+    }
+    .profile-img {
+      width: 240px;
+      height: 240px;
+      background: #181a1c;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #888;
+      margin-bottom: 24px;
+      font-weight: 600;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+    .profile-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .profile-img:hover::after {
+      content: '클릭하여 수정';
+      position: absolute;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+    }
+    #profile-file {
+      display: none;
+    }
+    .edit-btn {
+      width: 100%;
+      padding: 13px 0;
+      background: #4f4fff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 18px;
+      transition: background 0.2s;
+    }
+    .edit-btn:hover {
+      background: #2d2db3;
+    }
+    .history-card {
+      width: 100%;
+      background: #222;
+      border: 2.5px solid #2222cc;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      padding: 18px 0 18px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .history-title {
+      font-size: 2.2rem;
+      color: #ccc;
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+    .history-btn {
+      width: 80%;
+      padding: 18px 0;
+      background: #222;
+      color: #4f4fff;
+      border: 3px solid #2222cc;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .history-btn:hover {
+      background: #4f4fff;
+      color: #fff;
+    }
+    .info-section {
+      flex: 1;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      padding: 40px 48px 48px 48px;
+      min-width: 400px;
+      max-width: 600px;
+    }
+    .info-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+    }
+    .info-title::before {
+      content: '•';
+      color: #4f4fff;
+      font-size: 1.5rem;
+      margin-right: 10px;
+    }
+    .info-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .info-label {
+      font-size: 15px;
+      color: #444;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .info-input {
+      width: 100%;
+      padding: 12px 10px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 15px;
+      background: #f8fafc;
+      color: #aaa;
+      margin-bottom: 2px;
+      outline: none;
+    }
+    /* 과거 검색내역 목록 */
+    .history-title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      margin: 48px 0 32px 60px;
+      color: #222;
+    }
+    .history-table-wrapper {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      margin: 0 0 0 60px;
+      width: 900px;
+      padding: 24px 0 24px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 1.08rem;
+    }
+    thead tr {
+      background: #fafbfc;
+    }
+    th, td {
+      text-align: left;
+      padding: 18px 24px;
+    }
+    th {
+      color: #888;
+      font-weight: 600;
+      font-size: 1.05rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    tr:not(:last-child) td {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    td {
+      color: #222;
+      vertical-align: middle;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 18px 7px 14px;
+      border-radius: 8px;
+      border: none;
+      background: #f3f4f6;
+      color: #888;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      outline: none;
+      margin-right: 8px;
+    }
+    .action-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #b0b0b0;
+      transition: fill 0.2s;
+    }
+    .action-btn:hover {
+      background: #4f4fff;
+      color: #fff;
+    }
+    .action-btn:hover svg {
+      fill: #fff;
+    }
+    .load-btn {
+      display: inline-block;
+      padding: 7px 18px;
+      border-radius: 8px;
+      border: none;
+      background: #f3f4f6;
+      color: #888;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .load-btn:hover {
+      background: #e0e7ff;
+      color: #4f4fff;
+    }
+    /* 과거 검색내역 상세 */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 36px;
+      margin-top: 48px;
+      margin-bottom: 32px;
+    }
+    .left-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      padding: 28px 28px 18px 28px;
+      width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .main-img {
+      width: 600px;
+      max-width: 100%;
+      height: 400px;
+      background: #e5e7eb;
+      border: 3px solid #339cff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: #888;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+    .info-list {
+      width: 100%;
+      font-size: 1.08rem;
+      color: #222;
+      margin-top: 8px;
+    }
+    .info-list span {
+      font-weight: 600;
+      color: #222;
+    }
+    .right-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      padding: 32px 32px 32px 32px;
+      width: 320px;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .right-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 18px;
+    }
+    .right-info-box {
+      background: #f6f7f9;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .right-info-label {
+      color: #888;
+      font-size: 0.98rem;
+      margin-bottom: 2px;
+    }
+    .right-info-value {
+      font-weight: 700;
+      color: #222;
+      font-size: 1.08rem;
+    }
+    .back-btn {
+      display: block;
+      margin: 0 auto 32px auto;
+      padding: 12px 32px;
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.08rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .back-btn:hover {
+      background: #444;
+    }
+    /* 회원정보 수정 */
+    .edit-container {
+      max-width: 600px;
+      margin: 48px auto 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      padding: 38px 38px 32px 38px;
+    }
+    .edit-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+    }
+    .edit-title::before {
+      content: '•';
+      color: #4f4fff;
+      font-size: 1.5rem;
+      margin-right: 10px;
+    }
+    .edit-form {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .edit-label {
+      font-size: 15px;
+      color: #444;
+      margin-bottom: 7px;
+      font-weight: 500;
+    }
+    .edit-input {
+      width: 100%;
+      padding: 13px 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 7px;
+      font-size: 15px;
+      background: #f8fafc;
+      color: #222;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .edit-input:focus {
+      border: 2px solid #4f4fff;
+      background: #fff;
+    }
+    .edit-btns {
+      display: flex;
+      justify-content: flex-end;
+      gap: 14px;
+      margin-top: 18px;
+    }
+    /* 비밀번호 팝업 */
+    .modal-bg {
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: rgba(80,80,80,0.65);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+      padding: 32px 32px 24px 32px;
+      min-width: 340px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .modal-text {
+      font-size: 1.08rem;
+      color: #222;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+    .modal-form {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+    }
+    .modal-input {
+      flex: 1;
+      padding: 11px 12px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 7px;
+      font-size: 15px;
+      background: #f8fafc;
+      color: #222;
+      outline: none;
+      transition: border 0.2s;
+    }
+    .modal-input:focus {
+      border: 2px solid #4f4fff;
+      background: #fff;
+    }
+    .modal-btn {
+      padding: 11px 22px;
+      background: #e5e7eb;
+      color: #888;
+      border: none;
+      border-radius: 7px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .modal-btn:hover {
+      background: #4f4fff;
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .mypage-container, .history-table-wrapper {
+        margin-left: 0;
+      }
+      .info-section, .edit-container {
+        min-width: unset;
+        max-width: 98vw;
+        width: 98vw;
+        padding: 32px 10px 32px 10px;
+      }
+      .profile-section {
+        margin-bottom: 32px;
+      }
+    }
+    @media (max-width: 1100px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+      }
+      .left-card, .right-card {
+        width: 98vw;
+        max-width: 600px;
+      }
+      .main-img {
+        width: 100%;
+        min-width: 0;
+        height: 240px;
+        font-size: 1.5rem;
+      }
+    }
+    @media (max-width: 700px) {
+      .edit-container {
+        max-width: 98vw;
+        padding: 18px 4vw 18px 4vw;
+      }
+    }
+    @media (max-width: 1000px) {
+      .history-table-wrapper {
+        width: 98vw;
+        margin-left: 0;
+        padding: 8px 0 8px 0;
+      }
+      .history-title {
+        margin-left: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 마이페이지 -->
+  <div id="page-mypage">
+    <div class="mypage-title">마 이 페 이 지</div>
+    <div class="mypage-container">
+      <div class="profile-section">
+        <label class="profile-img" for="profile-file" id="profileImgBox">
+          <span id="profileImgText">프로필 이미지</span>
+          <img id="profileImgPreview" src="" alt="프로필 이미지" style="display:none;" />
+        </label>
+        <input type="file" id="profile-file" accept="image/*" onchange="previewProfileImg(event)">
+        <button class="edit-btn" onclick="openPasswordModal()">회원정보 수정하기</button>
+        <div class="history-card">
+          <div class="history-title">과거 검색 내역</div>
+          <button class="history-btn" onclick="showPage('history-list')">조회하기</button>
+        </div>
+      </div>
+      <div class="info-section">
+        <div class="info-title">회원정보</div>
+        <form class="info-form">
+          <div>
+            <div class="info-label">이름</div>
+            <input class="info-input" type="text" value="" placeholder="" disabled>
+          </div>
+          <div>
+            <div class="info-label">아이디</div>
+            <input class="info-input" type="text" value="" placeholder="" disabled>
+          </div>
+          <div>
+            <div class="info-label">비밀번호</div>
+            <input class="info-input" type="password" value="" placeholder="" disabled>
+          </div>
+          <div>
+            <div class="info-label">이메일</div>
+            <input class="info-input" type="email" value="" placeholder="" disabled>
+          </div>
+          <div>
+            <div class="info-label">기업명</div>
+            <input class="info-input" type="text" value="" placeholder="" disabled>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- 과거 검색내역 목록 -->
+  <div id="page-history-list" style="display:none;">
+    <div class="history-title">보관함</div>
+    <div class="history-table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>제목</th>
+            <th>저장 날짜</th>
+            <th>작업</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>검색 기록 1</td>
+            <td>2024-01-15</td>
+            <td>
+              <button class="action-btn">공유</button>
+              <button class="load-btn" onclick="showPage('history-detail')">불러오기</button>
+            </td>
+          </tr>
+          <tr>
+            <td>검색 기록 2</td>
+            <td>2024-01-08</td>
+            <td>
+              <button class="action-btn">공유</button>
+              <button class="load-btn" onclick="showPage('history-detail')">불러오기</button>
+            </td>
+          </tr>
+          <tr>
+            <td>검색 기록 3</td>
+            <td>2024-01-01</td>
+            <td>
+              <button class="action-btn">공유</button>
+              <button class="load-btn" onclick="showPage('history-detail')">불러오기</button>
+            </td>
+          </tr>
+          <tr>
+            <td>검색 기록 4</td>
+            <td>2023-12-31</td>
+            <td>
+              <button class="action-btn">공유</button>
+              <button class="load-btn" onclick="showPage('history-detail')">불러오기</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- 과거 검색내역 상세 -->
+  <div id="page-history-detail" style="display:none;">
+    <div class="container">
+      <div class="left-card">
+        <div class="main-img">600 × 400</div>
+        <div class="info-list">
+          면적: <span>2,500 sq ft</span><br>
+          층수: <span>3</span><br>
+          용도: <span>Commercial</span>
+        </div>
+      </div>
+      <div class="right-card">
+        <div class="right-title">지진 정보</div>
+        <div class="right-info-box">
+          <div class="right-info-label">예측 지진 강도</div>
+          <div class="right-info-value">7.2</div>
+        </div>
+        <div class="right-info-box">
+          <div class="right-info-label">내진등급</div>
+          <div class="right-info-value">Special</div>
+        </div>
+        <div class="right-info-box">
+          <div class="right-info-label">추천 내진 설계 방식</div>
+          <div class="right-info-value">Base Isolation</div>
+        </div>
+      </div>
+    </div>
+    <button class="back-btn" onclick="showPage('history-list')">목록으로 돌아가기</button>
+  </div>
+  <!-- 회원정보 수정 -->
+  <div id="page-edit-profile" style="display:none;">
+    <div class="edit-container">
+      <div class="edit-title">회원정보수정</div>
+      <form class="edit-form">
+        <div>
+          <div class="edit-label">이름</div>
+          <input class="edit-input" type="text" placeholder="이름을 입력하세요">
+        </div>
+        <div>
+          <div class="edit-label">새 비밀번호</div>
+          <input class="edit-input" type="password" placeholder="새 비밀번호를 입력하세요">
+        </div>
+        <div>
+          <div class="edit-label">새 비밀번호 확인</div>
+          <input class="edit-input" type="password" placeholder="새 비밀번호를 다시 입력하세요">
+        </div>
+        <div>
+          <div class="edit-label">이메일</div>
+          <input class="edit-input" type="email" placeholder="이메일을 입력하세요">
+        </div>
+        <div>
+          <div class="edit-label">기업명</div>
+          <input class="edit-input" type="text" placeholder="기업명을 입력하세요" style="border-width:2px; border-color:#4f4fff;">
+        </div>
+        <div class="edit-btns">
+          <button type="submit" class="btn-main" onclick="event.preventDefault();showPage('mypage')">저장하기</button>
+          <button type="button" class="btn-outline" onclick="showPage('mypage')">취소하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- 비밀번호 확인 팝업 -->
+  <div id="modal-password" class="modal-bg" style="display:none;">
+    <div class="modal">
+      <div class="modal-text">현재 사용하고 계신 비밀번호를 입력하세요.</div>
+      <form class="modal-form" onsubmit="event.preventDefault();confirmPassword()">
+        <input class="modal-input" id="pw-input" type="password" placeholder="비밀번호 입력">
+        <button class="modal-btn">확인</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    function showPage(page) {
+      document.getElementById('page-mypage').style.display = 'none';
+      document.getElementById('page-history-list').style.display = 'none';
+      document.getElementById('page-history-detail').style.display = 'none';
+      document.getElementById('page-edit-profile').style.display = 'none';
+      document.getElementById('modal-password').style.display = 'none';
+      if(page === 'mypage') document.getElementById('page-mypage').style.display = '';
+      if(page === 'history-list') document.getElementById('page-history-list').style.display = '';
+      if(page === 'history-detail') document.getElementById('page-history-detail').style.display = '';
+      if(page === 'edit-profile') document.getElementById('page-edit-profile').style.display = '';
+    }
+    function openPasswordModal() {
+      document.getElementById('modal-password').style.display = 'flex';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+    function confirmPassword() {
+      // 실제 검증 없이 바로 회원정보 수정 페이지로 이동
+      document.getElementById('modal-password').style.display = 'none';
+      showPage('edit-profile');
+    }
+    // 프로필 이미지 미리보기
+    function previewProfileImg(event) {
+      const file = event.target.files[0];
+      const img = document.getElementById('profileImgPreview');
+      const text = document.getElementById('profileImgText');
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          img.src = e.target.result;
+          img.style.display = 'block';
+          text.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        img.src = '';
+        img.style.display = 'none';
+        text.style.display = 'block';
+      }
+    }
+    // 최초 진입은 마이페이지
+    showPage('mypage');
+  </script>
+</body>
+</html> 
