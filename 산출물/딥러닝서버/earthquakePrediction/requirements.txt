@@ -1,0 +1,8 @@
+fastapi==0.109.2
+uvicorn==0.27.1
+pandas==2.2.0
+numpy==1.26.3
+geopy==2.4.1
+tensorflow==2.19.0
+scikit-learn==1.4.0
+requests==2.31.0 
